@@ -1,0 +1,23 @@
+.page__section {
+  background-color: #ffffff;
+}
+
+.page__section_type_promo {
+  background-color: #073042;
+}
+
+.page__section_type_nav-tab {
+  background-color: #000000;
+}
+
+.page__section_type_techs {
+  background-color: #f5f5f5;
+}
+
+.page__section_type_movies {
+  flex-grow: 1;
+}
+
+.page__section_type_saved-movies {
+  flex-grow: 1;
+}

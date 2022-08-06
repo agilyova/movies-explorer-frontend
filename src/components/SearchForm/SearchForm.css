@@ -1,0 +1,110 @@
+.search-form {
+  padding: 70px 70px 0;
+}
+
+.search-panel {
+  padding: 19px 30px 19px 19px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: min-content 1fr minmax(min-content, max-content);
+  align-items: center;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+  border-radius: 9px;
+}
+
+.search-panel__wrapper-for-divider {
+  border-bottom: 1px solid #e8e8e8;
+  padding-bottom: 69px;
+}
+
+.search-panel__form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 19px 0 10px;
+  margin-right: 29px;
+  border-right: 1px solid #cbcbcb;
+}
+.search-panel__input {
+  width: 100%;
+  border: none;
+  font-size: 18px;
+  line-height: 20px;
+  margin-right: 10px;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.search-panel__input:focus-visible {
+  outline: none;
+}
+
+.search-panel__button {
+  min-width: 80px;
+  min-height: 34px;
+  padding: 0;
+  border-radius: 48px;
+  border: none;
+  background-color: #3456f3;
+  cursor: pointer;
+  background-image: url("../../images/search-button-icon.svg");
+  background-size: 22px 22px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media screen and (max-width: 790px) {
+  .search-form {
+    padding: 80px 30px 0;
+  }
+
+  .search-panel__wrapper-for-divider {
+    padding-bottom: 109px;
+  }
+
+  .search-panel {
+    padding-right: 20px;
+  }
+  .search-panel__form {
+    margin-right: 19px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .search-panel__icon {
+    display: none;
+  }
+  .search-panel {
+    box-shadow: none;
+    border-radius: 0;
+    grid-template-columns: none;
+    row-gap: 46px;
+    justify-items: center;
+    padding: 0;
+  }
+
+  .search-panel__input {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .search-panel__form {
+    font-size: 14px;
+    line-height: 20px;
+    justify-self: stretch;
+    margin: 0;
+    border: 0;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+    border-radius: 9px;
+    padding: 19px;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .search-form {
+    padding: 80px 10px 0;
+  }
+  .search-panel__wrapper-for-divider {
+    padding-bottom: 44px;
+  }
+}
