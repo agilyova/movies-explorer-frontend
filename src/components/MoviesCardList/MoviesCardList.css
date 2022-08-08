@@ -30,9 +30,10 @@
   }
 }
 
-@media screen and (max-width: 440px) {
+@media screen and (max-width: 590px) {
   .movies__list {
     gap: 36px;
+    justify-content: center;
   }
 
   .movies__load-more-button {

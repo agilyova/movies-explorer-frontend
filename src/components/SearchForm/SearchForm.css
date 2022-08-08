@@ -35,8 +35,9 @@
   flex-grow: 1;
 }
 
-.search-panel__input:focus-visible {
+.search-panel__input:focus {
   outline: none;
+  box-shadow: 0 1px #ebebeb;
 }
 
 .search-panel__button {
@@ -51,6 +52,10 @@
   background-size: 22px 22px;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.search-panel__button:focus-visible {
+  outline: #2be080 1px auto;
 }
 
 @media screen and (max-width: 790px) {

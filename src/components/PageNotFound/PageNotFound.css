@@ -1,8 +1,7 @@
 .page-not-found {
-  flex-grow: 1;
+  min-height: 394px;
   text-align: center;
   padding-top: 35vh;
-  padding-bottom: 60px;
   display: flex;
   flex-direction: column;
 }
@@ -34,14 +33,13 @@
 @media screen and (max-width: 790px) {
   .page-not-found {
     padding-top: 40vh;
-    padding-bottom: 222px;
   }
 }
 
 @media screen and (max-width: 440px) {
   .page-not-found {
+    min-height: 421px;
     padding-top: 42vh;
-    padding-bottom: 30px;
   }
 
   .page-not-found__title {

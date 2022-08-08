@@ -7,6 +7,10 @@
   min-height: 100vh;
 }
 
+.page__main-content {
+  flex-grow: 1;
+}
+
 .link:hover {
   opacity: 0.7;
 }
@@ -20,3 +24,4 @@
   color: #c2c2c2;
   pointer-events: none;
 }
+

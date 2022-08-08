@@ -7,8 +7,8 @@ import ToggleButton from "../ToggleButton/ToggleButton";
 
 function SearchForm() {
   const [inputValues, setInputValues] = useState({
-    search: localStorage.getItem("searchValue") || "",
-    shortFilms: localStorage.getItem("shortFilms") === "true",
+    search: "",
+    shortFilms: false,
   });
 
   const handleInputValuesChange = (e) => {
@@ -46,6 +46,7 @@ function SearchForm() {
               placeholder="Фильм"
               value={inputValues.search}
               onChange={handleInputValuesChange}
+              required
             />
             <button className="button search-panel__button" type="submit" />
           </form>

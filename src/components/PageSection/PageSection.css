@@ -14,10 +14,8 @@
   background-color: #f5f5f5;
 }
 
-.page__section_type_movies {
-  flex-grow: 1;
-}
-
-.page__section_type_saved-movies {
-  flex-grow: 1;
+@media screen and (max-width: 440px) {
+  .page__section_type_techs {
+    background-color: #ffffff;
+  }
 }

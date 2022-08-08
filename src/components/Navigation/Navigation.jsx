@@ -41,7 +41,7 @@ function Navigation() {
           type="button"
           onClick={handleMenuClick}
         >
-          <img src={menuIcon} className="header__nav-icon"></img>
+          <img src={menuIcon} className="header__nav-icon" alt='Меню'></img>
         </button>
         <nav
           className={`header__nav ${isMenuOpen ? " header__nav_open" : ""}`}
@@ -52,7 +52,7 @@ function Navigation() {
             type="button"
             onClick={handleCloseMenu}
           >
-            <img src={closeIcon} className="header__nav-icon"></img>
+            <img src={closeIcon} className="header__nav-icon" alt='Закрыть'></img>
           </button>
           <ul className="header__nav-links" id="nav-links">
             <li className="header__nav-link-item header__nav-link-item_type_main">

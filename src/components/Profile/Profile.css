@@ -1,3 +1,7 @@
+.profile {
+  width: 410px;
+}
+
 .profile__title {
   font-weight: 500;
   font-size: 24px;
@@ -9,7 +13,6 @@
 .profile__form {
   display: flex;
   flex-direction: column;
-  width: 410px;
   margin-bottom: 16px;
 }
 
@@ -38,6 +41,8 @@
 
 .profile__input:focus-visible {
   outline: none;
+  box-shadow: -1px 6px 10px 0 aliceblue;
+  border-radius:10px;
 }
 
 .profile__input:disabled {
@@ -127,9 +132,8 @@
 }
 
 @media screen and (max-width: 440px) {
-  .profile__form {
+  .profile {
     width: 260px;
-    padding: 0 30px 0;
   }
 
   .profile__title {

@@ -26,6 +26,10 @@
   transition: background-color ease 0.2s;
 }
 
+.toggle__input:focus-visible + .toggle__switcher{
+  outline: rgb(43, 224, 128, .5) 1px auto;
+}
+
 .toggle__switcher-circle {
   width: 16px;
   height: 16px;
