@@ -1,0 +1,117 @@
+.about-project {
+  padding: 110px 70px;
+}
+
+.about-project__timeline {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 36px 31px;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  margin-top: 110px;
+}
+
+.about-project__description {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, min-content);
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
+  gap: 26px 40px;
+  padding-top: 70px;
+}
+
+.description__title {
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  margin: 0;
+}
+
+.description__text {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.timeline {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline_type_backend {
+  background-color: #2be080;
+}
+
+.timeline_type_frontend {
+  background-color: #f2f2f2;
+}
+
+.timeline__caption {
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  color: #a0a0a0;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 790px) {
+  .about-project {
+    padding: 90px 50px;
+  }
+
+  .about-project__description {
+    gap: 22px 30px;
+  }
+
+  .description__text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .about-project__timeline {
+    margin-top: 93px;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .about-project {
+    padding: 70px 18px;
+  }
+
+  .about-project__description {
+    padding-top: 60px;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .description__title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .description__text {
+    margin: 0;
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .description__text:first-of-type {
+    margin-bottom: 40px;
+  }
+
+  .about-project__timeline {
+    grid-template-rows: 35px 23px;
+    grid-template-columns: 35% 1fr;
+    margin-top: 60px;
+    font-size: 11px;
+    line-height: 13px;
+  }
+}

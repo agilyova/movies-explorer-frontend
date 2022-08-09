@@ -1,0 +1,42 @@
+.movies__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 43px 30px;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.movies__load-more-button {
+  width: 100%;
+  min-height: 36px;
+  margin-top: 63px;
+  border: none;
+  padding: 0;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  cursor: pointer;
+  transition: background-color ease 0.3s;
+}
+
+@media screen and (max-width: 790px) {
+  .movies__list {
+    gap: 45px 30px;
+    justify-content: flex-start;
+  }
+}
+
+@media screen and (max-width: 590px) {
+  .movies__list {
+    gap: 36px;
+    justify-content: center;
+  }
+
+  .movies__load-more-button {
+    margin-top: 60px;
+  }
+}
