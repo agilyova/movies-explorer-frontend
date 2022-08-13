@@ -10,7 +10,7 @@ function Portfolio() {
           <a
             href="https://agilyova.github.io/how-to-learn"
             className="link portfolio-link"
-            target='_blank'
+            target="_blank"
             rel="noreferrer"
           >
             Статичный сайт
@@ -21,7 +21,7 @@ function Portfolio() {
           <a
             href="https://agilyova.github.io/russian-travel/"
             className="link portfolio-link"
-            target='_blank'
+            target="_blank"
             rel="noreferrer"
           >
             Адаптивный сайт
@@ -32,7 +32,7 @@ function Portfolio() {
           <a
             href="https://mesto.gilyova.nomorepartiesxyz.ru/"
             className="link portfolio-link"
-            target='_blank'
+            target="_blank"
             rel="noreferrer"
           >
             Одностраничное приложение

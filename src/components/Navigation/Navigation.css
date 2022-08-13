@@ -29,6 +29,10 @@
   flex-grow: 1;
 }
 
+.header__nav-icon {
+  fill: #000000;
+}
+
 .header__nav-links {
   list-style: none;
   margin: 0;
@@ -72,6 +76,10 @@
 
 .header__nav-link-item_type_main {
   display: none;
+}
+
+.header__profile-link-icon {
+  fill: black;
 }
 
 .header__nav-button {

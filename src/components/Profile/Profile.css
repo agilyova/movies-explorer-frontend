@@ -42,7 +42,7 @@
 .profile__input:focus-visible {
   outline: none;
   box-shadow: -1px 6px 10px 0 aliceblue;
-  border-radius:10px;
+  border-radius: 10px;
 }
 
 .profile__input:disabled {

@@ -1,5 +1,18 @@
 .header_theme_dark {
   background-color: #073042;
+  color: #fff;
+}
+
+.header_theme_dark .link {
+  color: #ffffff;
+}
+
+.header_theme_dark .header__profile-link-icon {
+  fill: #ffffff;
+}
+
+.header_theme_dark .header__nav-icon {
+  fill: #ffffff;
 }
 
 .header__content {
@@ -23,6 +36,18 @@
 @media screen and (max-width: 790px) {
   .header__content {
     padding: 18px 30px;
+  }
+  .header_theme_dark {
+    background-color: #073042;
+    color: #000;
+  }
+
+  .header_theme_dark .link {
+    color: #000;
+  }
+
+  .header_theme_dark .header__profile-link-icon {
+    fill: #000;
   }
 }
 

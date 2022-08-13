@@ -1,7 +1,13 @@
 import "./ToggleButton.css";
 import React from "react";
 
-function ToggleButton({ name, label, state, handleValueChange }) {
+function ToggleButton({
+  name,
+  label,
+  state,
+  handleValueChange,
+  handleShortFilmsSearch,
+}) {
   return (
     <label className="toggle">
       <input
@@ -10,6 +16,7 @@ function ToggleButton({ name, label, state, handleValueChange }) {
         name={name}
         checked={state}
         onChange={handleValueChange}
+        onInput={handleShortFilmsSearch}
       />
       <span className="toggle__switcher">
         <span className="toggle__switcher-circle"></span>

@@ -1,28 +1,26 @@
 import "./SearchForm.css";
-import React, { useState } from "react";
+import React from "react";
 import PageSection from "../PageSection/PageSection";
 
 import iconSearchInput from "../../images/search-input-icon.svg";
 import ToggleButton from "../ToggleButton/ToggleButton";
+import { useForm } from "../../hooks/useForm";
 
-function SearchForm() {
-  const [inputValues, setInputValues] = useState({
-    search: "",
-    shortFilms: false,
+function SearchForm({ onSearch, initialSearchQueryValues }) {
+  const controls = useForm({
+    nameRU:
+      initialSearchQueryValues !== undefined
+        ? initialSearchQueryValues.nameRU
+        : "",
+    shortFilms:
+      initialSearchQueryValues !== undefined
+        ? initialSearchQueryValues.shortFilms
+        : "",
   });
 
-  const handleInputValuesChange = (e) => {
-    const { name, value, checked } = e.target;
-    setInputValues((prev) => ({
-      ...prev,
-      [name]: e.target.type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleFormSubmit = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    localStorage.setItem("searchValue", inputValues.search);
-    localStorage.setItem("shortFilms", inputValues.shortFilms);
+    onSearch(controls.values);
   };
 
   return (
@@ -37,16 +35,15 @@ function SearchForm() {
           <form
             className="search-panel__form"
             action=""
-            onSubmit={handleFormSubmit}
+            onSubmit={handleSearch}
           >
             <input
               className="search-panel__input"
-              name="search"
+              name="nameRU"
               type="text"
               placeholder="Фильм"
-              value={inputValues.search}
-              onChange={handleInputValuesChange}
-              required
+              value={controls.values.nameRU}
+              onChange={controls.handleChange}
             />
             <button className="button search-panel__button" type="submit" />
           </form>
@@ -54,8 +51,9 @@ function SearchForm() {
           <ToggleButton
             name="shortFilms"
             label="Короткометражки"
-            state={inputValues.shortFilms}
-            handleValueChange={handleInputValuesChange}
+            state={controls.values.shortFilms}
+            handleValueChange={controls.handleChange}
+            handleShortFilmsSearch={handleSearch}
           />
         </div>
       </div>

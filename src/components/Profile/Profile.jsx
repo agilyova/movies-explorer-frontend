@@ -1,51 +1,70 @@
 import "./Profile.css";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import PageContent from "../PageContent/PageContent";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useForm } from "../../hooks/useForm";
 
-function Profile() {
-  const [isActiveForEdit, setIsActiveForEdit] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+function Profile({
+  handleLogOut,
+  handleProfileUpdate,
+  isActiveForUpdate,
+  handleEdit,
+  profileErrorMessage,
+}) {
+  const currentUser = useContext(CurrentUserContext);
 
-  const inputDisabled = `${!isActiveForEdit ? "disabled" : ""}`;
+  const controls = useForm({
+    name: currentUser.name,
+    email: currentUser.email,
+  });
+
+  const inputDisabled = !isActiveForUpdate;
   const errorMessageClassName = `profile__error-message${
-    errorMessage && isActiveForEdit ? " profile__error-message_visible" : ""
+    profileErrorMessage && isActiveForUpdate
+      ? " profile__error-message_visible"
+      : ""
   }`;
 
   const handleEditProfile = (e) => {
     e.preventDefault();
-    setIsActiveForEdit(true);
+    handleEdit();
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsActiveForEdit(false);
+    handleProfileUpdate(controls.values);
   };
 
   return (
     <PageContent name="profile">
-      <h2 className="profile__title">Привет, Виталий!</h2>
+      <h2 className="profile__title">Привет, {currentUser.name}!</h2>
       <form className="profile__form" onSubmit={handleSubmit}>
         <label className="profile__input-label">
           Имя
           <input
+            name="name"
             className="profile__input"
             type="text"
             disabled={inputDisabled}
             required={true}
-            ref={(input) => input && input.focus()}
+            value={controls.values.name}
+            onChange={controls.handleChange}
           />
         </label>
         <label className="profile__input-label">
           E-mail
           <input
+            name="email"
             className="profile__input"
             type="email"
             required={true}
             disabled={inputDisabled}
+            value={controls.values.email}
+            onChange={controls.handleChange}
           />
         </label>
-        <span className={errorMessageClassName}>{errorMessage}</span>
-        {!isActiveForEdit ? (
+        <span className={errorMessageClassName}>{profileErrorMessage}</span>
+        {!isActiveForUpdate ? (
           <button
             className="link profile__edit-link"
             onClick={handleEditProfile}
@@ -56,14 +75,16 @@ function Profile() {
           <button
             className="button profile__submit-button"
             type="submit"
-            disabled={errorMessage ? `true` : ""}
+            disabled={profileErrorMessage}
           >
             Сохранить
           </button>
         )}
       </form>
-      {!isActiveForEdit && (
-        <button className="link profile__cancel-link">Выйти из аккаунта</button>
+      {!isActiveForUpdate && (
+        <button className="link profile__cancel-link" onClick={handleLogOut}>
+          Выйти из аккаунта
+        </button>
       )}
     </PageContent>
   );
