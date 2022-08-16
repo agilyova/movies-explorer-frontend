@@ -1,32 +1,50 @@
 import "./Profile.css";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import PageContent from "../PageContent/PageContent";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { useForm } from "../../hooks/useForm";
+import { useFormWithValidation } from "../../hooks/useFormWithValidation";
 
 function Profile({
   handleLogOut,
   handleProfileUpdate,
   isActiveForUpdate,
+  setIsActiveForUpdate,
+  successMessage,
+  setSuccessMessage,
   handleEdit,
   profileErrorMessage,
+  setProfileErrorMessage,
 }) {
   const currentUser = useContext(CurrentUserContext);
 
-  const controls = useForm({
+  const controls = useFormWithValidation({
     name: currentUser.name,
     email: currentUser.email,
   });
 
-  const inputDisabled = !isActiveForUpdate;
-  const errorMessageClassName = `profile__error-message${
+  const errorServerMessageClassName = `profile__error-message profile__error-message_type_server${
     profileErrorMessage && isActiveForUpdate
       ? " profile__error-message_visible"
       : ""
   }`;
 
+  const errorMessageClassName1 = `profile__error-message${
+    isActiveForUpdate ? " profile__error-message_visible" : ""
+  }`;
+
+  const successMessageClassName = `profile__success-message ${
+    successMessage ? "profile__success-message_visible" : ""
+  }`;
+
+  const isButtonDisabled =
+    !controls.isValid ||
+    profileErrorMessage ||
+    (controls.values.name === currentUser.name &&
+      controls.values.email === currentUser.email);
+
   const handleEditProfile = (e) => {
     e.preventDefault();
+    setSuccessMessage("");
     handleEdit();
   };
 
@@ -34,6 +52,16 @@ function Profile({
     e.preventDefault();
     handleProfileUpdate(controls.values);
   };
+
+  useEffect(() => {
+    setProfileErrorMessage("");
+  }, [controls.values]);
+
+  useEffect(() => {
+    setIsActiveForUpdate(false);
+    setSuccessMessage("");
+    setProfileErrorMessage("");
+  }, []);
 
   return (
     <PageContent name="profile">
@@ -45,12 +73,16 @@ function Profile({
             name="name"
             className="profile__input"
             type="text"
-            disabled={inputDisabled}
+            disabled={!isActiveForUpdate}
             required={true}
-            value={controls.values.name}
+            minLength={2}
+            maxLength={30}
+            pattern={"[а-яА-ЯёЁa-zA-z- ]*"}
+            value={controls.values.name || ""}
             onChange={controls.handleChange}
           />
         </label>
+        <span className={errorMessageClassName1}>{controls.errors.name}</span>
         <label className="profile__input-label">
           E-mail
           <input
@@ -58,12 +90,16 @@ function Profile({
             className="profile__input"
             type="email"
             required={true}
-            disabled={inputDisabled}
+            disabled={!isActiveForUpdate}
             value={controls.values.email}
             onChange={controls.handleChange}
           />
         </label>
-        <span className={errorMessageClassName}>{profileErrorMessage}</span>
+        <span className={errorMessageClassName1}>{controls.errors.email}</span>
+        <span className={successMessageClassName}>{successMessage}</span>
+        <span className={errorServerMessageClassName}>
+          {profileErrorMessage}
+        </span>
         {!isActiveForUpdate ? (
           <button
             className="link profile__edit-link"
@@ -75,7 +111,7 @@ function Profile({
           <button
             className="button profile__submit-button"
             type="submit"
-            disabled={profileErrorMessage}
+            disabled={isButtonDisabled}
           >
             Сохранить
           </button>

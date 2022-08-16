@@ -16,14 +16,11 @@ function SavedMovies({ savedMovies, deleteMovieFromSaved, onSearch }) {
     }
   }, [savedMovies]);
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, [searchResultsSavedMovies]);
-
   const handleSearch = (query) => {
     setIsLoading(true);
     const result = onSearch(query, savedMovies);
     setSearchResultsSavedMovies(result);
+    setIsLoading(false);
   };
 
   const handleDelete = (savedMovieId) => {
@@ -62,7 +59,7 @@ function SavedMovies({ savedMovies, deleteMovieFromSaved, onSearch }) {
               );
             })
           ) : (
-            <h2>Ничего не найдено</h2>
+            <p>Ничего не найдено</p>
           )}
         </MoviesCardList>
       )}

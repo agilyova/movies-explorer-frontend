@@ -1,7 +1,13 @@
 import "./App.css";
 
 import { useEffect, useState } from "react";
-import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import {
+  Redirect,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -17,17 +23,22 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import * as mainApi from "../../utils/MainApi";
 import * as movieApi from "../../utils/MoviesApi";
 import ProtectedRoute from "../ProtectedRoute";
+import AlertMessage from "../AlertMessage/AlertMessage";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
-  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [isActiveForUpdate, setIsActiveForUpdate] = useState(false);
   const [profileErrorMessage, setProfileErrorMessage] = useState("");
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [alertIsOpen, setAlertIsOpen] = useState(false);
 
   const history = useHistory();
+
+  const location = useLocation();
 
   const getUserInfo = () => {
     mainApi
@@ -56,7 +67,8 @@ function App() {
         setMovies(movies);
       })
       .catch((err) => {
-        console.log("err", err);
+        setErrorMessage(err.message);
+        setAlertIsOpen(true);
       });
   };
 
@@ -67,7 +79,8 @@ function App() {
         setSavedMovies(movies);
       })
       .catch((err) => {
-        console.log(err);
+        setErrorMessage(err.message);
+        setAlertIsOpen(true);
       });
   };
 
@@ -81,18 +94,35 @@ function App() {
     }
   }, [loggedIn]);
 
+  useEffect(() => {
+    errorMessage && setErrorMessage("");
+    setAlertIsOpen(false);
+  }, [location.pathname]);
+
   const addMovieToSaved = (movie) => {
-    mainApi.addMoviesToSaved(movie).then((movie) => {
-      setSavedMovies([movie, ...savedMovies]);
-    });
+    mainApi
+      .addMoviesToSaved(movie)
+      .then((movie) => {
+        setSavedMovies([movie, ...savedMovies]);
+      })
+      .catch((err) => {
+        setErrorMessage(err.message);
+        setAlertIsOpen(true);
+      });
   };
 
   const deleteMovieFromSaved = (savedMovieId) => {
-    mainApi.deleteFromSavedMovies(savedMovieId).then(() => {
-      setSavedMovies((prevState) =>
-        prevState.filter((item) => item._id !== savedMovieId)
-      );
-    });
+    mainApi
+      .deleteFromSavedMovies(savedMovieId)
+      .then(() => {
+        setSavedMovies((prevState) =>
+          prevState.filter((item) => item._id !== savedMovieId)
+        );
+      })
+      .catch((err) => {
+        setErrorMessage(err.message);
+        setAlertIsOpen(true);
+      });
   };
 
   const searchMovies = (query, moviesArray) => {
@@ -109,11 +139,12 @@ function App() {
   const onLogin = (email, password) => {
     mainApi
       .authorize(email, password)
-      .then((r) => {
+      .then(() => {
         getUserInfo();
+        setErrorMessage("");
       })
       .catch((err) => {
-        setMessage(err.message);
+        setErrorMessage(err.message);
       });
   };
 
@@ -122,10 +153,10 @@ function App() {
       .register(name, email, password)
       .then(() => {
         onLogin(email, password);
+        setErrorMessage("");
       })
-      .catch((res) => {
-        setMessage(res.message);
-        console.log(res);
+      .catch((err) => {
+        setErrorMessage(err.message);
       });
   };
 
@@ -141,7 +172,7 @@ function App() {
         history.push("/");
       })
       .catch((err) => {
-        setMessage(err.message);
+        setErrorMessage(err.message);
       });
   };
 
@@ -150,11 +181,11 @@ function App() {
       .updateUser(user)
       .then((user) => {
         setCurrentUser(user);
+        setSuccessMessage("Ваши данные успешно обновлены");
         setIsActiveForUpdate(false);
       })
       .catch((err) => {
-        console.log("Request", err);
-        setMessage(err.message);
+        setErrorMessage(err.message);
         setProfileErrorMessage(err.message);
       });
   };
@@ -194,22 +225,34 @@ function App() {
                 handleLogOut={onLogOut}
                 handleProfileUpdate={onProfileUpdate}
                 isActiveForUpdate={isActiveForUpdate}
+                setIsActiveForUpdate={setIsActiveForUpdate}
+                successMessage={successMessage}
+                setSuccessMessage={setSuccessMessage}
                 handleEdit={onProfileEdit}
                 profileErrorMessage={profileErrorMessage}
+                setProfileErrorMessage={setProfileErrorMessage}
               />
             </ProtectedRoute>
             <Route path="/signup">
               {loggedIn ? (
                 <Redirect to="/movies" />
               ) : (
-                <Register handleRegistration={onRegister} />
+                <Register
+                  handleRegistration={onRegister}
+                  errorMessage={errorMessage}
+                  setErrorMessage={setErrorMessage}
+                />
               )}
             </Route>
             <Route path="/signin">
               {loggedIn ? (
                 <Redirect to="/movies" />
               ) : (
-                <Login handleLogin={onLogin} />
+                <Login
+                  handleLogin={onLogin}
+                  errorMessage={errorMessage}
+                  setErrorMessage={setErrorMessage}
+                />
               )}
             </Route>
             <Route path="*">
@@ -218,6 +261,11 @@ function App() {
           </Switch>
         </main>
         <Footer />
+        <AlertMessage
+          message={errorMessage}
+          isOpen={alertIsOpen}
+          setIsOpen={setAlertIsOpen}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

@@ -19,14 +19,18 @@ function Header({ loggedIn }) {
   }
 
   return (
-    <header className={headerCLassName}>
-      <PageContent name="header__content">
-        <Link to="/" className="header__logo-link">
-          <img src={logo} alt="Логотоип" className="header__logo" />
-        </Link>
-        <Navigation loggedIn={loggedIn} />
-      </PageContent>
-    </header>
+    <Switch>
+      <Route exact path={["/movies", "/saved-movies", "/profile", "/"]}>
+        <header className={headerCLassName}>
+          <PageContent name="header__content">
+            <Link to="/" className="header__logo-link">
+              <img src={logo} alt="Логотоип" className="header__logo" />
+            </Link>
+            <Navigation loggedIn={loggedIn} />
+          </PageContent>
+        </header>
+      </Route>
+    </Switch>
   );
 }
 

@@ -1,13 +1,14 @@
 import "./Login.css";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import PageWithForm from "../PageWithForm/PageWithForm";
 import Form from "../Form/Form";
 import Input from "../Input/Input";
 import SubmitButton from "../SubmitButton/SubmitButton";
-import { useForm } from "../../hooks/useForm";
+import { useFormWithValidation } from "../../hooks/useFormWithValidation";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
-function Login({ handleLogin }) {
-  const controls = useForm({
+function Login({ handleLogin, errorMessage, setErrorMessage }) {
+  const controls = useFormWithValidation({
     email: "",
     password: "",
   });
@@ -17,9 +18,9 @@ function Login({ handleLogin }) {
     handleLogin(controls.values.email, controls.values.password);
   };
 
-  const checkValidity = (e) => {
-    console.log(e.target.validity);
-  };
+  useEffect(() => {
+    errorMessage && setErrorMessage("");
+  }, [controls.values]);
 
   return (
     <PageWithForm
@@ -38,7 +39,7 @@ function Login({ handleLogin }) {
           required={true}
           value={controls.values.email}
           onChange={controls.handleChange}
-          onBlur={checkValidity}
+          errorMessage={controls.errors.email}
         ></Input>
         <Input
           type="password"
@@ -47,8 +48,10 @@ function Login({ handleLogin }) {
           required={true}
           value={controls.values.password}
           onChange={controls.handleChange}
+          errorMessage={controls.errors.password}
         ></Input>
-        <SubmitButton label="Войти" />
+        <ErrorMessage errorMessage={errorMessage} />
+        <SubmitButton label="Войти" isDisabled={!controls.isValid} />
       </Form>
     </PageWithForm>
   );

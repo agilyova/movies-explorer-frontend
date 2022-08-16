@@ -1,13 +1,18 @@
 import "./SearchForm.css";
-import React from "react";
+import React, { useEffect } from "react";
 import PageSection from "../PageSection/PageSection";
 
 import iconSearchInput from "../../images/search-input-icon.svg";
 import ToggleButton from "../ToggleButton/ToggleButton";
-import { useForm } from "../../hooks/useForm";
+import { useFormWithValidation } from "../../hooks/useFormWithValidation";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
-function SearchForm({ onSearch, initialSearchQueryValues }) {
-  const controls = useForm({
+function SearchForm({
+  onSearch,
+  initialSearchQueryValues,
+  searchWordRequiered,
+}) {
+  const controls = useFormWithValidation({
     nameRU:
       initialSearchQueryValues !== undefined
         ? initialSearchQueryValues.nameRU
@@ -18,8 +23,25 @@ function SearchForm({ onSearch, initialSearchQueryValues }) {
         : "",
   });
 
+  useEffect(
+    (e) => {
+      if (controls.errors.nameRU) {
+        controls.updateErrorMessage(e, "nameRU", "Нужно ввести ключевое слово");
+      }
+    },
+    [controls.errors.nameRU]
+  );
+
   const handleSearch = (e) => {
     e.preventDefault();
+    if (
+      searchWordRequiered &&
+      !controls.isValid &&
+      controls.values.nameRU.length === 0
+    ) {
+      controls.checkValidity(e);
+      return;
+    }
     onSearch(controls.values);
   };
 
@@ -36,26 +58,30 @@ function SearchForm({ onSearch, initialSearchQueryValues }) {
             className="search-panel__form"
             action=""
             onSubmit={handleSearch}
+            noValidate
           >
-            <input
-              className="search-panel__input"
-              name="nameRU"
-              type="text"
-              placeholder="Фильм"
-              value={controls.values.nameRU}
-              onChange={controls.handleChange}
+            <div className="search-panel__form-wrapper">
+              <input
+                className="search-panel__input"
+                name="nameRU"
+                type="text"
+                placeholder="Фильм"
+                value={controls.values.nameRU}
+                onChange={controls.handleChange}
+                required={searchWordRequiered}
+              />
+              <button className="button search-panel__button" type="submit" />
+            </div>
+            <ToggleButton
+              name="shortFilms"
+              label="Короткометражки"
+              state={controls.values.shortFilms}
+              handleValueChange={controls.handleChange}
+              handleShortFilmsSearch={handleSearch}
             />
-            <button className="button search-panel__button" type="submit" />
           </form>
-
-          <ToggleButton
-            name="shortFilms"
-            label="Короткометражки"
-            state={controls.values.shortFilms}
-            handleValueChange={controls.handleChange}
-            handleShortFilmsSearch={handleSearch}
-          />
         </div>
+        <ErrorMessage errorMessage={controls.errors.nameRU} />
       </div>
     </PageSection>
   );

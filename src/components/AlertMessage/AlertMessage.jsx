@@ -1,11 +1,27 @@
 import "./AlertMessage.css";
 import React from "react";
+import { useCallback } from "react";
 
-function AlertMessage({ message }) {
+function AlertMessage({ message, isOpen, setIsOpen }) {
+  const alertClassName = `alert ${isOpen ? "alert_visible" : ""}`;
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen, isOpen]);
+
+  const closeAlert = () => {
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 7000);
+  };
+
+  closeAlert();
+
   return (
-    <div className="alert">
+    <div className={alertClassName}>
       <svg
         className="alert__close-button"
+        onClick={handleClose}
         width="32"
         height="32"
         viewBox="0 0 32 32"

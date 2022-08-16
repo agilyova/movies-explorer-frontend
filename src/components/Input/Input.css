@@ -29,6 +29,7 @@
 }
 
 .input__error {
+  min-height: 24px;
   font-size: 10px;
   line-height: 12px;
   color: #ff3055;

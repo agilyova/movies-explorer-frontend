@@ -1,18 +1,23 @@
 import "./Register.css";
-import React from "react";
+import React, { useEffect } from "react";
 
 import PageWithForm from "../PageWithForm/PageWithForm";
 import Form from "../Form/Form";
 import Input from "../Input/Input";
 import SubmitButton from "../SubmitButton/SubmitButton";
-import { useForm } from "../../hooks/useForm";
+import { useFormWithValidation } from "../../hooks/useFormWithValidation";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
-function Register({ handleRegistration }) {
-  const controls = useForm({
+function Register({ handleRegistration, errorMessage, setErrorMessage }) {
+  const controls = useFormWithValidation({
     name: "",
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    errorMessage && setErrorMessage("");
+  }, [controls.values.email]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -37,9 +42,13 @@ function Register({ handleRegistration }) {
           name="name"
           label="Имя"
           autoFocus={true}
-          required={true}
+          required
           value={controls.values.name}
           onChange={controls.handleChange}
+          minLength={2}
+          maxLength={30}
+          pattern={"[а-яА-ЯёЁa-zA-z- ]*"}
+          errorMessage={controls.errors.name}
         ></Input>
         <Input
           type="email"
@@ -48,6 +57,7 @@ function Register({ handleRegistration }) {
           required={true}
           value={controls.values.email}
           onChange={controls.handleChange}
+          errorMessage={controls.errors.email}
         ></Input>
         <Input
           type="password"
@@ -56,8 +66,14 @@ function Register({ handleRegistration }) {
           required={true}
           value={controls.values.password}
           onChange={controls.handleChange}
+          minLength={5}
+          errorMessage={controls.errors.password}
         ></Input>
-        <SubmitButton label="Зарегистрироваться" />
+        <ErrorMessage errorMessage={errorMessage} />
+        <SubmitButton
+          label="Зарегистрироваться"
+          isDisabled={!controls.isValid}
+        />
       </Form>
     </PageWithForm>
   );

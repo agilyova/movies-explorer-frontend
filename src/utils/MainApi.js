@@ -7,7 +7,13 @@ const checkAnswer = (res) => {
     return res.json();
   }
   return res.json().then((res) => {
-    throw new Error(res.validation || res.error || res.message);
+    let message = "";
+    if (res.validation) {
+      message = res.validation.body.message;
+    } else {
+      message = res.error || res.message;
+    }
+    throw new Error(message);
   });
 };
 
@@ -92,7 +98,7 @@ export const addMoviesToSaved = (movie) => {
     },
     body: JSON.stringify({
       country: movie.country || "-",
-      director: movie.director,
+      director: movie.director || "-",
       duration: movie.duration,
       year: movie.year,
       description: movie.description,

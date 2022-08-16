@@ -5,6 +5,7 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
 import { useEffect, useState } from "react";
 import React from "react";
+import useBreakpoint from "../../hooks/useResize";
 
 function Movies({
   movies,
@@ -27,47 +28,57 @@ function Movies({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const defaultValues = {};
+  const cardListValues = useBreakpoint();
 
   const [isFirstSearch, setIsFirstSearch] = useState(true);
 
-  function setDefaultValues() {
+  const searchResultText =
+    isFirstSearch && localStorage.getItem("query") === null
+      ? "Для поиска укажите ключевое слово"
+      : "По вашему запросу ничего не найдено";
+
+  /*  function setDefaultValues() {
     if (window.innerWidth >= 1000) {
-      defaultValues.startTotal = 12;
-      defaultValues.increment = 3;
+      cardListValues.startTotal = 12;
+      cardListValues.increment = 3;
       return;
     }
     if (window.innerWidth >= 768) {
-      defaultValues.startTotal = 8;
-      defaultValues.increment = 2;
+      cardListValues.startTotal = 8;
+      cardListValues.increment = 2;
     } else {
-      defaultValues.startTotal = 5;
-      defaultValues.increment = 1;
+      cardListValues.startTotal = 5;
+      cardListValues.increment = 1;
     }
   }
-  setDefaultValues();
+  setDefaultValues();*/
 
   useEffect(() => {
     getMovies();
-  }, [isFirstSearch]);
+  }, []);
 
   useEffect(() => {
-    setIsLoading(false);
-    setPagination(true);
-    setVisibleMovies(searchResult.slice(0, defaultValues.startTotal));
+    setVisibleMovies(searchResult.slice(0, cardListValues.startTotal));
   }, [searchResult]);
 
   useEffect(() => {
-    if (searchResult.length <= visibleMovies.length) {
+    if (
+      searchResult.length <= visibleMovies.length ||
+      searchResult.length === 0
+    ) {
       setPagination(false);
+    } else {
+      setPagination(true);
     }
-  }, [visibleMovies]);
+  }, [searchResult, visibleMovies, searchResult.length, visibleMovies.length]);
 
   const handleSearch = (query) => {
     setIsLoading(true);
     setIsFirstSearch(false);
     const result = onSearch(query, movies);
     setSearchResult(result);
+    setIsLoading(false);
+
     localStorage.setItem("searchResult", JSON.stringify(result));
     localStorage.setItem(
       "query",
@@ -80,7 +91,7 @@ function Movies({
 
   const onLoadMore = () => {
     setVisibleMovies((prev) =>
-      searchResult.slice(0, prev.length + defaultValues.increment)
+      searchResult.slice(0, prev.length + cardListValues.increment)
     );
   };
 
@@ -93,6 +104,7 @@ function Movies({
         searchResult={searchResult}
         setIsLoading={setIsLoading}
         initialSearchQueryValues={initialSearchQueryValues}
+        searchWordRequiered
       />
 
       <MoviesCardList
@@ -117,7 +129,7 @@ function Movies({
             );
           })
         ) : (
-          <h2>Ничего не найдено</h2>
+          <p className="movies__list-message">{searchResultText}</p>
         )}
       </MoviesCardList>
     </>
