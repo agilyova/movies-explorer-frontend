@@ -37,22 +37,6 @@ function Movies({
       ? "Для поиска укажите ключевое слово"
       : "По вашему запросу ничего не найдено";
 
-  /*  function setDefaultValues() {
-    if (window.innerWidth >= 1000) {
-      cardListValues.startTotal = 12;
-      cardListValues.increment = 3;
-      return;
-    }
-    if (window.innerWidth >= 768) {
-      cardListValues.startTotal = 8;
-      cardListValues.increment = 2;
-    } else {
-      cardListValues.startTotal = 5;
-      cardListValues.increment = 1;
-    }
-  }
-  setDefaultValues();*/
-
   useEffect(() => {
     getMovies();
   }, []);

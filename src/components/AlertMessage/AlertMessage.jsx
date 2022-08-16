@@ -7,7 +7,7 @@ function AlertMessage({ message, isOpen, setIsOpen }) {
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
-  }, [setIsOpen, isOpen]);
+  }, [setIsOpen]);
 
   const closeAlert = () => {
     setTimeout(() => {

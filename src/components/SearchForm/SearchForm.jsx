@@ -40,6 +40,7 @@ function SearchForm({
       controls.values.nameRU.length === 0
     ) {
       controls.checkValidity(e);
+      controls.updateErrorMessage(e, "nameRU", "Нужно ввести ключевое слово");
       return;
     }
     onSearch(controls.values);
