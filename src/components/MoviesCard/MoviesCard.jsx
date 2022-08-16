@@ -42,7 +42,7 @@ const MoviesCard = React.memo(
             <img className="movie-card__image" src={preview} alt="Описание" />
           </div>
           <div className="movie-card__info">
-            <h2 className="movie-card__name">{movie.nameRU + Math.random()}</h2>
+            <h2 className="movie-card__name">{movie.nameRU}</h2>
             <p className="movie-card__duration">
               {reformatTime(movie.duration)}
             </p>
